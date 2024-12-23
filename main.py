@@ -1,20 +1,28 @@
 from Bio.Seq import Seq
 from colorama import init, Fore, Style
 import time
+from visualizer import Visualizer
 
-init(autoreset=True)  # Inicializa colorama
+init(autoreset=True)
+
+BASE_TO_NUM = {"A": 1, "C": 2, "G": 3, "T": 4, "U": 4}
+NUM_TO_BASE = {1: "A", 2: "C", 3: "G", 4: "T"}
 
 
-def print_step(message, arr, left_idx=None, right_idx=None, merged=None):
-    """Imprime um passo da ordenação com cores, mostrando bases e números."""
+def print_step(message, arr, visualizer, left_idx=None, right_idx=None, merged=None):
+    """Imprime um passo da ordenação com visualização gráfica."""
+
+    bases = [NUM_TO_BASE[num] for num in arr]
+
+    visualizer.show_sorting_steps(message, bases, arr, left_idx, right_idx, merged)
+
     print(f"\n{message}")
 
-    # Imprime as bases
     result_bases = "Bases:  "
     result_nums = "Números:"
     for i, num in enumerate(arr):
-        # Converte número para base
-        base = {1: "A", 2: "C", 3: "G", 4: "T"}[num]
+
+        base = NUM_TO_BASE[num]
 
         if merged is not None and num in merged:
             color = Fore.GREEN
@@ -30,10 +38,10 @@ def print_step(message, arr, left_idx=None, right_idx=None, merged=None):
 
     print(result_bases)
     print(result_nums)
-    time.sleep(0.5)  # Pausa para melhor visualização
+    time.sleep(0.5)
 
 
-def merge_and_count(left, right, full_array, start_idx):
+def merge_and_count(left, right, visualizer, full_array, start_idx):
     """Merge com visualização."""
     i = j = inv_count = 0
     merged = []
@@ -41,6 +49,7 @@ def merge_and_count(left, right, full_array, start_idx):
     print_step(
         "Mesclando subarrays:",
         full_array,
+        visualizer,
         left_idx=start_idx + len(left) - 1,
         right_idx=start_idx + len(left) + len(right) - 1,
     )
@@ -56,24 +65,24 @@ def merge_and_count(left, right, full_array, start_idx):
             print_step(
                 f"Inversão encontrada! ({inv_count} inversões até agora)",
                 full_array,
+                visualizer,
                 merged=merged,
             )
 
-    # Adiciona os elementos restantes
     merged.extend(left[i:])
     merged.extend(right[j:])
 
-    # Mostra o resultado final da mesclagem
     print_step(
         "Array mesclado e ordenado:",
         merged + full_array[start_idx + len(merged) :],
+        visualizer,
         merged=merged,
     )
 
     return merged, inv_count
 
 
-def merge_sort_and_count(arr, full_array=None, start_idx=0):
+def merge_sort_and_count(arr, visualizer, full_array=None, start_idx=0):
     """Merge sort com visualização."""
     if full_array is None:
         full_array = arr.copy()
@@ -83,29 +92,35 @@ def merge_sort_and_count(arr, full_array=None, start_idx=0):
 
     mid = len(arr) // 2
     print_step(
-        f"Dividindo array no índice {mid}:", full_array, left_idx=start_idx + mid - 1
+        f"Dividindo array no índice {mid}:",
+        full_array,
+        visualizer,
+        left_idx=start_idx + mid - 1,
     )
 
-    left, left_inv = merge_sort_and_count(arr[:mid], full_array, start_idx)
-    right, right_inv = merge_sort_and_count(arr[mid:], full_array, start_idx + mid)
-    merged, merge_inv = merge_and_count(left, right, full_array, start_idx)
+    left, left_inv = merge_sort_and_count(arr[:mid], visualizer, full_array, start_idx)
+    right, right_inv = merge_sort_and_count(
+        arr[mid:], visualizer, full_array, start_idx + mid
+    )
+    merged, merge_inv = merge_and_count(left, right, visualizer, full_array, start_idx)
 
-    # Atualiza o array completo para refletir as mudanças
     full_array[start_idx : start_idx + len(merged)] = merged
     return merged, left_inv + right_inv + merge_inv
 
 
 def calculate_disorder(seq):
     """Calcula o grau de desordem de uma sequência biológica com visualização."""
+
+    vis = Visualizer()
+
     print(f"{Fore.CYAN}Sequência original: {seq}{Style.RESET_ALL}")
 
-    base_order = {"A": 1, "C": 2, "G": 3, "T": 4, "U": 4}
-    numeric_seq = [base_order[base] for base in seq if base in base_order]
+    numeric_seq = [BASE_TO_NUM[base] for base in seq if base in BASE_TO_NUM]
 
     print(
         f"\n{Fore.YELLOW}Iniciando ordenação e contagem de inversões...{Style.RESET_ALL}"
     )
-    _, inversions = merge_sort_and_count(numeric_seq)
+    _, inversions = merge_sort_and_count(numeric_seq, vis)
 
     n = len(numeric_seq)
     max_inversions = n * (n - 1) // 2
@@ -118,11 +133,11 @@ def calculate_disorder(seq):
     return inversions, disorder_index
 
 
-# Exemplo de uso
 if __name__ == "__main__":
-    from visualizer import get_sequence, show_results
+    from visualizer import Visualizer
 
-    sequence = get_sequence()
+    vis = Visualizer()
+    sequence = vis.get_sequence()
     seq = Seq(sequence)
     inversions, disorder_index = calculate_disorder(seq)
-    show_results(inversions, disorder_index)
+    vis.show_results(inversions, disorder_index)
