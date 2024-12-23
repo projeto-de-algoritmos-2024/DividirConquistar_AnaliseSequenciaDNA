@@ -1,4 +1,4 @@
-# NomedoProjeto
+# Análise de Sequência Biológica
 
 **Número da Lista**: 25<br>
 **Conteúdo da Disciplina**: Dividir e Conquistar<br>
@@ -10,39 +10,42 @@
 | 21/1030676  |  Ana Luíza Rodrigues da Silva |
 
 ## Sobre 
-Apresentação da resolução de três problemas da plataforma LeetCode aplicando os conceitos de grafos aprendidos em sala. 
+Este projeto implementa uma análise de sequências biológicas utilizando o algoritmo de Merge Sort para calcular o grau de desordem em uma sequência de DNA/RNA. O programa possui uma interface gráfica interativa que permite visualizar o processo de ordenação e cálculo das inversões.
 
-Problemas
-| Código | Nome | Dificuldade |
-| ------------------ | ---------------- | ----------- |
-|  |  |  |
-|  |  |  |
-|  |  |  |
+## Pré-requisitos
 
-<!-- ## Screenshots
+- Python 3.8 ou superior
+- pip (gerenciador de pacotes Python)
 
-O funcionamento das soluções pode ser visto nas imagens 1, 2 e 3.
+## Como rodar o projeto
 
-<center>
-    <img src="" width="800"/>
-    <i>Imagem 1: Submissão da questão X (LeetCode)</i>
-</center>
+### 1. Clone o repositório
 
-<center>
-    <img src="" width="800"/>
-    <i>Imagem 2: Submissão da questão X (LeetCode)</i>
-</center>
+```
+git clone https://github.com/seu-usuario/nome-do-repositorio.git
+cd nome-do-repositorio
+```
+### 2. Crie um ambiente virtual (recomendado)
 
-<center>
-    <img src="" width="800"/>
-    <i>Imagem 3: Submissão da questão X (LeetCode)</i>
-</center>
+python -m venv venv
 
-## Linguagem 
-Java
+#### No Windows
+venv\Scripts\activate
+#### No Linux/MacOS
+source venv/bin/activate
 
-## Uso 
-Os códigos devem ser executados na plataforma [LeetCode](https://leetcode.com/).
+### 3. Instale as dependências
 
-## Vídeo de apresentação do trabalho
-O vídeo de apresentação encontra-se neste [link]() -->
+pip install -r requirements.txt
+
+### 4. Execute o programa
+
+python main.py
+
+### 5. Usando o programa
+
+1. Uma janela será aberta solicitando a entrada da sequência
+2. Digite uma sequência de DNA/RNA válida (usando apenas as letras A, C, G, T, U)
+3. Clique no botão "Enviar" ou pressione Enter
+4. Observe a visualização do processo de ordenação
+5. Ao final, serão exibidos os resultados com o número de inversões e índice de desordem
