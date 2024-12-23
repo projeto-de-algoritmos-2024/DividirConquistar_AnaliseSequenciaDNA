@@ -2,6 +2,43 @@ import pygame
 import sys
 
 
+def show_results(inversions, disorder_index):
+    """Mostra os resultados em uma nova janela."""
+    pygame.init()
+
+    WIDTH = 600
+    HEIGHT = 200
+    WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
+    pygame.display.set_caption("Resultados")
+
+    WHITE = (255, 255, 255)
+    BLACK = (0, 0, 0)
+
+    font = pygame.font.Font(None, 36)
+
+    # Renderiza os textos dos resultados
+    inv_text = font.render(f"Número de inversões: {inversions}", True, BLACK)
+    disorder_text = font.render(
+        f"Índice de desordem: {disorder_index:.2%}", True, BLACK
+    )
+    exit_text = font.render("Clique para sair", True, BLACK)
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT or event.type == pygame.MOUSEBUTTONDOWN:
+                pygame.quit()
+                return
+
+        WINDOW.fill(WHITE)
+
+        # Posiciona os textos na tela
+        WINDOW.blit(inv_text, (50, 50))
+        WINDOW.blit(disorder_text, (50, 100))
+        WINDOW.blit(exit_text, (50, 150))
+
+        pygame.display.flip()
+
+
 def get_sequence():
     pygame.init()
 

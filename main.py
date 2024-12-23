@@ -120,8 +120,9 @@ def calculate_disorder(seq):
 
 # Exemplo de uso
 if __name__ == "__main__":
-    from visualizer import get_sequence
+    from visualizer import get_sequence, show_results
 
     sequence = get_sequence()
     seq = Seq(sequence)
     inversions, disorder_index = calculate_disorder(seq)
+    show_results(inversions, disorder_index)
