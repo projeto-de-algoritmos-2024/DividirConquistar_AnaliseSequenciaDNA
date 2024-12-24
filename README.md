@@ -74,3 +74,21 @@ python main.py
 3. Clique no botão "Enviar" ou pressione **Enter**.
 4. Observe a visualização do processo de ordenação das sequências.
 5. Ao final, o programa exibirá o número de inversões realizadas e o índice de desordem da sequência.
+
+## Screenshots
+
+<center>
+
+![Tela Inicial](firstScreen.png)
+<p>Tela Inicial</p>
+
+![Processo de Ordenação](sortingScreen.png)
+<p>Processo de Ordenação</p>
+
+![Resultado Final](resultScreen.png)
+<p>Resultado Final</p>
+</center>
+
+##
+
+[Link do vídeo de explicação e execução](https://www.youtube.com/watch?v=SAv3LSpH3yw)
